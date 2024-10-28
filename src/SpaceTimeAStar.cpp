@@ -24,16 +24,12 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
 {
     std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_set;
     std::set<State> closed_set;
-    std::map<State, State*> came_from;
-    std::map<State, float> g_score;
     std::map<State, float> f_score;
 
     const Node start_node = Node(start, 0.0, map.get_heuristic(start, goal), nullptr);
     open_set.push(start_node);
 
-    // g_score[start] = 0;
     f_score[start] = map.get_heuristic(start, goal);
-    // came_from[start] = nullptr;
 
     expanded_node_count = 0;
 
