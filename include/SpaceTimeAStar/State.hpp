@@ -5,8 +5,8 @@
 class State {
     private:
         int t;
-    public:
         Location location;
+    public:
         State(const int t, const Location loc) : t(t), location(loc) {};
         bool operator==(const State& other) const
         {
@@ -26,8 +26,21 @@ class State {
         {
             return location.distance(other);
         }
-        State neighbour(const int dx, const int dy) const
+        const std::vector<State> neighbours() const
         {
-            return State(t + 1, location.neighbour(dx, dy));
+            std::vector<State> neighbours = {
+                State(t + 1, location.offset(0, 0)),
+                State(t + 1, location.offset(0, 1)),
+                State(t + 1, location.offset(0, -1)),
+                State(t + 1, location.offset(1, 0)),
+                State(t + 1, location.offset(-1, 0))
+            };
+
+            return neighbours;
         }
+    friend std::ostream& operator<<(std::ostream& os, const State& state)
+    {
+        os << state.t << ": (" << state.location << ")";
+        return os;
+    }
 };

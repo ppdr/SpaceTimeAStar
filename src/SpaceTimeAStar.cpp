@@ -123,7 +123,7 @@ int main(int argc, char const *argv[])
 
     for (State state : path)
     {
-        std::cout << state.location << std::endl;
+        std::cout << state << std::endl;
     }
 
     std::cout << astar.expanded_node_count << std::endl;

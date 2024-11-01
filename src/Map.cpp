@@ -3,30 +3,25 @@
 
 std::vector<State> Map::get_neighbours(const State state)
 {
-    std::vector<State> neighbours;
-    std::vector<State> neighbour_candidates = {
-        state.neighbour(-1, 0),
-        state.neighbour(1, 0),
-        state.neighbour(0, -1),
-        state.neighbour(0, 1),
-        state.neighbour(0, 0),
-    };
+    std::vector<State> valid_neighbours;
 
-    for (State n : neighbour_candidates)
+    for (const State n : state.neighbours())
         if (is_valid(state, n))
         {
-            neighbours.push_back(n);
+            valid_neighbours.push_back(n);
         }
 
-    return neighbours;
+    return valid_neighbours;
 }
 
 bool Map::is_valid(const State current_state, const State next_state)
 {   
-    // Check if the state is in the static obstacles
-    if (std::find(static_obstacles.begin(), static_obstacles.end(), next_state.location) != static_obstacles.end())
+    for (Location static_obstacle : static_obstacles)
     {
-        return false;
+        if (next_state.location_equals(static_obstacle))
+        {
+            return false;
+        }
     }
 
     // Check if the state is in the vertex constraints

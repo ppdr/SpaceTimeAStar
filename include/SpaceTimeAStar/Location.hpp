@@ -24,7 +24,7 @@ public:
     {
         return std::hypot(x - other.x, y - other.y);
     }
-    Location neighbour(const int dx, const int dy) const
+    Location offset(const int dx, const int dy) const
     {
         return Location(x + dx, y + dy);
     }
