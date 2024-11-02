@@ -39,8 +39,16 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
 
         expanded_node_count++;
         
+        if (expanded_node_count > max_node_expansions)
+        {
+            success = false;
+            return std::vector<State>();
+        }
+        
         if (current.is_at(goal))
         {
+            success = true;
+
             std::vector<State> path;
             while (current.parent != nullptr)
             {
@@ -92,6 +100,7 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
         }
     }
 
+    success = false;
     return std::vector<State>();
 }
 
@@ -119,7 +128,7 @@ int main(int argc, char const *argv[])
 
     SpaceTimeAStar astar(map, 1000000, 1.0);
 
-    std::vector<State> path = astar.solve(State(0, Location(0, 0)), Location(3, 3));
+    std::cout << (astar.success ? "Success" : "Failed") << std::endl;
 
     for (State state : path)
     {
