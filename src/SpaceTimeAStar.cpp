@@ -5,6 +5,7 @@
 #include <queue>
 #include <set>
 #include <map>
+#include <chrono>
 #include "Location.hpp"
 #include "State.hpp"
 #include "Node.hpp"
@@ -31,6 +32,7 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
 
     f_score[start] = map.get_heuristic(start, goal);
 
+    const auto start_time = std::chrono::high_resolution_clock::now();
     expanded_node_count = 0;
 
     while (!open_set.empty())
@@ -42,12 +44,21 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
         if (expanded_node_count > max_node_expansions)
         {
             success = false;
+            
+            const auto end_time = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> elapsed_seconds = end_time - start_time;
+            runtime = elapsed_seconds.count();
+
             return std::vector<State>();
         }
         
         if (current.is_at(goal))
         {
             success = true;
+
+            const auto end_time = std::chrono::high_resolution_clock::now();
+            const std::chrono::duration<double> elapsed_seconds = end_time - start_time;
+            runtime = elapsed_seconds.count();
 
             std::vector<State> path;
             while (current.parent != nullptr)
@@ -101,6 +112,11 @@ std::vector<State> SpaceTimeAStar::solve(const State start, const Location goal)
     }
 
     success = false;
+    
+    const auto end_time = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double> elapsed_seconds = end_time - start_time;
+    runtime = elapsed_seconds.count();
+
     return std::vector<State>();
 }
 
@@ -135,7 +151,8 @@ int main(int argc, char const *argv[])
         std::cout << state << std::endl;
     }
 
-    std::cout << astar.expanded_node_count << std::endl;
+    std::cout << "Expanded: " << astar.expanded_node_count << std::endl;
+    std::cout << "Runtime: " << astar.runtime << "[s]" << std::endl;
 
     return 0;
 }
