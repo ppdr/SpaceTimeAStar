@@ -28,6 +28,10 @@ public:
     {
         return Location(x + dx, y + dy);
     }
+    bool in_range(const int x_min, const int x_max, const int y_min, const int y_max) const
+    {
+        return x >= x_min && x < x_max && y >= y_min && y < y_max;
+    }
     // Print the location
     friend std::ostream& operator<<(std::ostream& os, const Location& loc)
     {

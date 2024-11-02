@@ -16,6 +16,11 @@ std::vector<State> Map::get_neighbours(const State state)
 
 bool Map::is_valid(const State current_state, const State next_state)
 {   
+    if (!next_state.location_in_range(0, width, 0, height))
+    {
+        return false;
+    }
+
     for (Location static_obstacle : static_obstacles)
     {
         if (next_state.location_equals(static_obstacle))

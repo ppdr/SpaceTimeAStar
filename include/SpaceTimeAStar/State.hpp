@@ -26,6 +26,10 @@ class State {
         {
             return location.distance(other);
         }
+        bool location_in_range(const int x_min, const int x_max, const int y_min, const int y_max) const
+        {
+            return location.in_range(x_min, x_max, y_min, y_max);
+        }
         const std::vector<State> neighbours() const
         {
             std::vector<State> neighbours = {
